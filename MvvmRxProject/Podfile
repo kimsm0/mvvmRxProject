@@ -1,0 +1,46 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'MvvmRxProject' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for MvvmRxProject
+
+
+
+# Networking
+  pod 'Moya'
+  pod 'Moya/RxSwift'
+  pod 'Moya/ReactiveSwift'
+  pod 'Moya/Combine'
+
+  #Rx
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxOptional'
+  pod 'RxKeyboard'
+  pod 'RxDataSources'
+  pod 'RxGesture'
+  pod 'RxAppState'
+  
+  # Other Swift Utilities
+  pod 'Then'
+  
+  # Image + Animation + UI
+  pod 'Kingfisher', '~> 7.6.2'
+  pod 'SnapKit'
+
+
+
+
+  target 'MvvmRxProjectTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'MvvmRxProjectUITests' do
+    # Pods for testing
+  end
+
+end
