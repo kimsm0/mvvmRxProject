@@ -43,6 +43,7 @@
 		317E6A1C2B4D161B00F1FAD9 /* PrintLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E6A012B4D161B00F1FAD9 /* PrintLog.swift */; };
 		317E6A1D2B4D161B00F1FAD9 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E6A022B4D161B00F1FAD9 /* LocalStorage.swift */; };
 		317E6A1E2B4D161B00F1FAD9 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E6A032B4D161B00F1FAD9 /* ViewModelType.swift */; };
+		3199EA2D2B50367B00D2EE93 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3199EA2C2B50367B00D2EE93 /* CustomTextField.swift */; };
 		4AA043D1DBB2AAD757346D25 /* Pods_MvvmRxProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A02D5D2B002A43CA0F3AC54C /* Pods_MvvmRxProjectTests.framework */; };
 		889D4DC500DB738546A87313 /* Pods_MvvmRxProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC17E3E1099A9195AAD3E0B1 /* Pods_MvvmRxProject.framework */; };
 		C3C887AACD91FAAF01F1C048 /* Pods_MvvmRxProject_MvvmRxProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE1496D3AE26D732D22377A /* Pods_MvvmRxProject_MvvmRxProjectUITests.framework */; };
@@ -106,6 +107,7 @@
 		317E6A012B4D161B00F1FAD9 /* PrintLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintLog.swift; sourceTree = "<group>"; };
 		317E6A022B4D161B00F1FAD9 /* LocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		317E6A032B4D161B00F1FAD9 /* ViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		3199EA2C2B50367B00D2EE93 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3CE1496D3AE26D732D22377A /* Pods_MvvmRxProject_MvvmRxProjectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MvvmRxProject_MvvmRxProjectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95729159CD3B578ADCEA6FC8 /* Pods-MvvmRxProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MvvmRxProject.release.xcconfig"; path = "Target Support Files/Pods-MvvmRxProject/Pods-MvvmRxProject.release.xcconfig"; sourceTree = "<group>"; };
 		A02D5D2B002A43CA0F3AC54C /* Pods_MvvmRxProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MvvmRxProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,6 +309,7 @@
 				317E69FD2B4D161B00F1FAD9 /* CustomButton.swift */,
 				317E69FE2B4D161B00F1FAD9 /* ToastView.swift */,
 				317E69FF2B4D161B00F1FAD9 /* CommonViewController.swift */,
+				3199EA2C2B50367B00D2EE93 /* CustomTextField.swift */,
 			);
 			path = CustomUI;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				317E6A0E2B4D161B00F1FAD9 /* MainViewModel.swift in Sources */,
 				317E6A172B4D161B00F1FAD9 /* Alert.swift in Sources */,
 				317E6A092B4D161B00F1FAD9 /* WKWebViewController.swift in Sources */,
+				3199EA2D2B50367B00D2EE93 /* CustomTextField.swift in Sources */,
 				317E6A042B4D161B00F1FAD9 /* UIViewController+Ex.swift in Sources */,
 				317E6A102B4D161B00F1FAD9 /* LoginViewModel.swift in Sources */,
 				317E69AA2B4D146400F1FAD9 /* AppDelegate.swift in Sources */,

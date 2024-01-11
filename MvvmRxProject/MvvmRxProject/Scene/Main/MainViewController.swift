@@ -71,11 +71,15 @@ class MainViewController: CommonViewController {
             weakSelf.collectionView.removeGestureRecognizer(weakSelf.gesture)
         }
         
-        searchView.editingHandler = { [weak self] text in
-            guard let weakSelf = self else { return }
-            weakSelf.searchTrigger.accept("")
-            weakSelf.collectionView.addGestureRecognizer(weakSelf.gesture)
-        }
+        searchView.curText
+            .bind(to: searchTrigger)
+            .disposed(by: disposeBag)
+        
+//        searchView.editingHandler = { [weak self] text in
+//            guard let weakSelf = self else { return }
+//            weakSelf.searchTrigger.accept("")
+//            weakSelf.collectionView.addGestureRecognizer(weakSelf.gesture)
+//        }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<MainHeaderView>(elementKind: headerKind) {
             (supplementaryView, string, indexPath) in

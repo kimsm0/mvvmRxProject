@@ -8,11 +8,15 @@
 import Foundation
 import UIKit
 import RxSwift
+import RxCocoa
 
 class SearchView: UIView {
     var isTextingMode = false
     var doneHandler: ((String) -> Void)?
     var editingHandler: ((String?) -> Void)?
+        
+    var curText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    var isEditing = PublishRelay<Bool>()
     
     var stackView = UIStackView().then{
         $0.axis = .horizontal
@@ -21,7 +25,7 @@ class SearchView: UIView {
         $0.layer.borderWidth = 1
     }
     
-    var textfield =  UITextField().then{
+    var textfield =  CustomTextField().then{
         $0.placeholder = "검색어를 입력해주세요."
         $0.returnKeyType = .search
     }
@@ -94,30 +98,52 @@ class SearchView: UIView {
             })
             .disposed(by: disposeBag)
         
-        textfield.rx.controlEvent([.editingDidEndOnExit, .editingDidEnd])
-            .subscribe(onNext: { [weak self] in
-                guard let weakSelf = self else { return }
-                PrintLog.printLog(weakSelf.needToSearch)
-                                
-                if weakSelf.needToSearch {
-                    weakSelf.doneHandler?(weakSelf.textfield.text ?? "")
-                }
-                
-            })
+//        textfield.rx.controlEvent([.editingDidEndOnExit, .editingDidEnd])
+//            .subscribe(onNext: { [weak self] in
+//                guard let weakSelf = self else { return }
+//                PrintLog.printLog(weakSelf.needToSearch)
+//                                
+//                if weakSelf.needToSearch {
+//                    weakSelf.doneHandler?(weakSelf.textfield.text ?? "")
+//                }
+//                
+//            })
+//            .disposed(by: disposeBag)
+        
+//        textfield.rx.controlEvent([.valueChanged, .editingChanged])
+//            .subscribe(onNext: { [weak self] _ in
+//                guard let weakSelf = self else { return }
+//                if let text = weakSelf.textfield.text, !text.isEmpty {
+//                    weakSelf.clearView.isHidden = false
+//                }else{
+//                    weakSelf.clearView.isHidden = true
+//                }
+//                PrintLog.printLog(weakSelf.textfield.text)
+//                weakSelf.editingHandler?(weakSelf.textfield.text)
+//            })
+//            .disposed(by: disposeBag)
+              
+        
+        isEditing.bind(to: clearView.rx.isHidden)
             .disposed(by: disposeBag)
         
-        textfield.rx.controlEvent([.valueChanged, .editingChanged])
-            .subscribe(onNext: { [weak self] _ in
-                guard let weakSelf = self else { return }
-                if let text = weakSelf.textfield.text, !text.isEmpty {
-                    weakSelf.clearView.isHidden = false
+            
+        textfield.changedText
+            .asDriver()
+            .drive { text in
+                if let text = text, !text.isEmpty {
+                    self.isEditing.accept(false)
                 }else{
-                    weakSelf.clearView.isHidden = true
+                    self.isEditing.accept(true)
                 }
-                PrintLog.printLog(weakSelf.textfield.text)
-                weakSelf.editingHandler?(weakSelf.textfield.text)
-            })
+            }.disposed(by: disposeBag)
+        
+        
+        textfield.changedText
+            .bind(to: curText)
             .disposed(by: disposeBag)
+        
+        
     }
 }
 
