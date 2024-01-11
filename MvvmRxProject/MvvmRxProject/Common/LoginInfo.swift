@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import RxCocoa
 
 class LoginInfo {
     static let instance = LoginInfo()
+    var loginTrigger = PublishRelay<String>()
+    
     var loginUser: LoginUser?
     
     func isLogin() -> Bool {

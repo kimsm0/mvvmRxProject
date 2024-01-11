@@ -106,7 +106,6 @@
 		317E6A012B4D161B00F1FAD9 /* PrintLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintLog.swift; sourceTree = "<group>"; };
 		317E6A022B4D161B00F1FAD9 /* LocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		317E6A032B4D161B00F1FAD9 /* ViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
-		317E6A202B4D163D00F1FAD9 /* resume.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = resume.pdf; sourceTree = "<group>"; };
 		3CE1496D3AE26D732D22377A /* Pods_MvvmRxProject_MvvmRxProjectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MvvmRxProject_MvvmRxProjectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95729159CD3B578ADCEA6FC8 /* Pods-MvvmRxProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MvvmRxProject.release.xcconfig"; path = "Target Support Files/Pods-MvvmRxProject/Pods-MvvmRxProject.release.xcconfig"; sourceTree = "<group>"; };
 		A02D5D2B002A43CA0F3AC54C /* Pods_MvvmRxProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MvvmRxProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,7 +170,6 @@
 		317E69A82B4D146400F1FAD9 /* MvvmRxProject */ = {
 			isa = PBXGroup;
 			children = (
-				317E6A1F2B4D163D00F1FAD9 /* Resource */,
 				317E69F82B4D161B00F1FAD9 /* Common */,
 				317E69DD2B4D161A00F1FAD9 /* Extension */,
 				317E69F42B4D161B00F1FAD9 /* Network */,
@@ -321,15 +319,6 @@
 				317E6A032B4D161B00F1FAD9 /* ViewModelType.swift */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		317E6A1F2B4D163D00F1FAD9 /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				317E6A202B4D163D00F1FAD9 /* resume.pdf */,
-			);
-			name = Resource;
-			path = ../../illuminarean_test/illuminarean/illuminarean/Resource;
 			sourceTree = "<group>";
 		};
 		511DE1041F19BAE8C8F5B3BD /* Pods */ = {

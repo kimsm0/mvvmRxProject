@@ -7,6 +7,7 @@
 
 import Foundation
 import Moya
+import RxSwift
 
 class LoginModel {
     
@@ -19,28 +20,31 @@ class LoginModel {
         if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
-    }        
+    }
     
-    func reqAccessToken(code: String, completion: @escaping ((Bool) -> Void)){
-        oAuthProvider.request(.reqAccessToken(code: code)) { result in
-            PrintLog.printLog(result)
-            switch result {
-            case let .success(response):
-                let decoder = JSONDecoder()
-                if let accessToken = try? decoder.decode(AccessToken.self, from: response.data) {
-                    PrintLog.printLog(accessToken)
-                    LocalStorage.accessToken = accessToken.access_token
-                    completion(true)
-                }else{
-                    LocalStorage.accessToken = nil
-                    completion(false)
-                }
-            case let .failure(error):
-                LocalStorage.accessToken = nil
-                PrintLog.printLog(error)
-                completion(false)
-            }
-        }
+    
+    func reqAccessToken(code: String) -> Observable<AccessToken> {
+        oAuthProvider.rx.request(.reqAccessToken(code: code))
+            .filter(statusCode: 200)
+            .map( AccessToken.self )
+            .asObservable()
+            .do(onError: {
+                PrintLog.printLog($0.localizedDescription)
+                Alert.showNetworkError()
+            })
+                
+    }
+    
+    func reqUserInfo() -> Observable<LoginUser> {
+        mainProvider.rx.request(.loginUser)
+            .filterSuccessfulStatusCodes()
+            .map( LoginUser.self )
+            .asObservable()
+            .do(onError: {
+                PrintLog.printLog($0.localizedDescription)
+                Alert.showNetworkError()
+            })
+
     }
     
     func reqUserInfo(completion: @escaping ((Bool) -> Void)){

@@ -39,7 +39,6 @@ class LoginViewController: CommonViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.addObserver()
         self.layout()   
         self.bind()
     }
@@ -81,45 +80,33 @@ class LoginViewController: CommonViewController{
         openResumeButton.setData(title: "OPEN RESUME", fontColor: .white, borderColor: .white, bgColor: .black)
     }
         
-    func addObserver(){
-        NotificationCenter.default.addObserver(self, selector: #selector(receivedGithubCode(_:)), name: NSNotification.Name("GITHUB_CALLBACK"), object: nil)
-    }
-    
     func bind(){
         
         loginButton.button.rx.tap
-            .subscribe(onNext: {[weak self] in
-                guard let weakSelf = self else { return }
-                weakSelf.openGithubTrigger.accept(Void())
-            }).disposed(by: disposeBag)
+            .bind(to: openGithubTrigger)
+            .disposed(by: disposeBag)            
         
         openResumeButton.button.rx.tap
-            .subscribe(onNext: {[weak self] in
-                guard let weakSelf = self else { return }
+            .subscribe(onNext: {
                 if let pdfURL = Bundle.main.url(forResource: "resume", withExtension: "pdf", subdirectory: nil, localization: nil){
                     WKWebViewController.loadLocalFile(url: pdfURL)
                 }                                
             }).disposed(by: disposeBag)
        
         output.loginResult
-            .subscribe(onNext: {[weak self] isLoginSuccess in
+            .subscribe(onNext: {[weak self] loginUser in
                 guard let weakSelf = self else { return }
-                if isLoginSuccess {
-                    weakSelf.navigationController?.pushViewController(MainViewController(), animated: true)                    
+                if !loginUser.login.isEmpty{
+                    LoginInfo.instance.loginUser = loginUser
+                    weakSelf.navigationController?.pushViewController(MainViewController(), animated: true)
                 }else{
                     Alert.showAlertVC(message: "로그인 에러", cancelTitle: nil, confirmAction: nil, cancelAction: nil)
                 }
             }).disposed(by: disposeBag)
+        
+        LoginInfo.instance.loginTrigger
+            .bind(to: loginTriger)
+            .disposed(by: disposeBag)
     }
 }
 
-extension LoginViewController {
-    @objc func receivedGithubCode(_ notification: Notification){
-        if let noti = notification.object as? [String: Any] {
-            if let code = noti["CODE"] as? String {
-                PrintLog.printLog(code)
-                self.loginTriger.accept(code)
-            }
-        }
-    }
-}

@@ -12,8 +12,8 @@ import RxSwift
 class LoginViewModel: ViewModelType{
     private var model = LoginModel()
     
-    private var loginResult = PublishRelay<Bool>()
-    var disposeBag = DisposeBag()            
+    private var loginResult = PublishRelay<LoginUser>()
+    var disposeBag = DisposeBag()
 }
 
 extension LoginViewModel {
@@ -23,7 +23,7 @@ extension LoginViewModel {
     }
     
     struct Output {
-        var loginResult: Observable<Bool>
+        var loginResult: Observable<LoginUser>
     }
     
     func transform(input: Input) -> Output {
@@ -44,13 +44,14 @@ extension LoginViewModel {
 extension LoginViewModel {
     
     func reqLogin(code: String){
-        self.model.reqAccessToken(code: code) {[weak self] tokenResult in
-            guard let weakSelf = self else { return }
-            if tokenResult {
-                weakSelf.model.reqUserInfo { userInfoResult in
-                    weakSelf.loginResult.accept(userInfoResult)
-                }
-            }            
-        }
+        
+        self.model.reqAccessToken(code: code)
+            .map(\.access_token)
+            .map{[weak self] in
+                LocalStorage.accessToken = $0
+            }
+            .flatMap{ self.model.reqUserInfo() }
+            .bind(to: loginResult)
+            .disposed(by: disposeBag)
     }
 }

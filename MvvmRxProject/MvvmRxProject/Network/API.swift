@@ -5,9 +5,10 @@
 //  Created by kimsoomin_mac2022 on 1/2/24.
 //
 
+
 import Foundation
 
-class API: NSObject {
+class API {
     static let instance = API()
     
     var mode: Server.Mode = LocalStorage.server == nil ? .develop : Server.Mode(rawValue: LocalStorage.server!)!

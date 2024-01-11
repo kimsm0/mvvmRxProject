@@ -10,8 +10,11 @@ import UIKit
 
 // TODO: alertvc custom
 class Alert {
+    static func showNetworkError(){
+        Alert.showAlertVC(title: "네트워크 에러", message: "잠시후 다시 시도해주세요.", cancelTitle: nil, confirmAction: nil, cancelAction: nil)
+    }
     
-    static func showAlertVC (title: String = "알림", 
+    static func showAlertVC (title: String = "알림",
                              message: String?,
                              style: UIAlertController.Style = .alert,
                              confirmTitle: String = "확인",

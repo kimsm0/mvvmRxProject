@@ -61,7 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             PrintLog.printLog(url.absoluteString)
             if let code = url.absoluteString.components(separatedBy: "code=").last{
                 PrintLog.printLog(code)
-                NotificationCenter.default.post(name: Notification.Name("GITHUB_CALLBACK"), object: ["CODE": code])
+                LoginInfo.instance.loginTrigger.accept(code)                
             }
         }
     }
