@@ -104,6 +104,7 @@ class SearchView: UIView {
 extension SearchView {
     @objc func clearButtonPressed(){
         textfield.text = nil
+        textfield.curText.accept("")
     }
     
     func closeKeyboard(){
