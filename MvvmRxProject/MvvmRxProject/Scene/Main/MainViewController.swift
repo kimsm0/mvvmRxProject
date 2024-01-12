@@ -17,10 +17,8 @@ class MainViewController: CommonViewController {
     
     let searchTrigger = PublishRelay<(String)>()
     let willDisplayCell = PublishRelay<IndexPath>()
-    let viewDidLoadTrigger = PublishRelay<Void>()
     
-    lazy var input = MainViewModel.Input(initTrigger: viewDidLoadTrigger.asObservable(),
-                                         searchTrigger: searchTrigger.asObservable(),
+    lazy var input = MainViewModel.Input(searchTrigger: searchTrigger.asObservable(),
                                          willDisplayCell: willDisplayCell.asObservable())
     lazy var output = viewModel.transform(input: input)
     
@@ -39,14 +37,19 @@ class MainViewController: CommonViewController {
     
     let headerKind = "headerKind"
     let disposeBag = DisposeBag()
-        
-    private let gesture = UITapGestureRecognizer()
+    
+    let guideLabel = UILabel().then{
+        $0.text = "\(String(localized: "search_guide1"))\n\(String(localized: "search_guide2"))"
+        $0.numberOfLines = 0
+        $0.font = .systemFont(ofSize: 15)
+        $0.textColor = .black         
+        $0.textAlignment = .center
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.layout()
         self.bind()
-        self.viewDidLoadTrigger.accept(Void())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,12 +66,13 @@ class MainViewController: CommonViewController {
         searchView.curText
             .compactMap({ $0 })
             .bind(to: searchTrigger)
-            .disposed(by: disposeBag) 
+            .disposed(by: disposeBag)
+                
         
         searchView.searchText
             .filter({ ($0 ?? "").isEmpty })
             .subscribe { txt in
-                Toast.showToast(message: "검색어를 입력해주세요.")
+                Toast.showToast(message: String(localized: "search_validation_message"))
             }.disposed(by: disposeBag)
             
         
@@ -82,18 +86,28 @@ class MainViewController: CommonViewController {
             supplementaryView.config()
         }
         
+        let userCellRegistration = UICollectionView.CellRegistration<MainUserCell, User> {
+            (cell,indexPath,itemIdentifier) in
+            cell.config(user: itemIdentifier)
+        }
+        
+        let emptyCellRegistration = UICollectionView.CellRegistration<MainUserEmptyCell, Empty> {
+            (cell,indexPath,itemIdentifier) in
+            cell.config(searchText: itemIdentifier.searchTest)
+        }
+        
+        
         dataSource = UICollectionViewDiffableDataSource<SearchUserSectionType, SearchUserSectionItem>(collectionView: collectionView) {[weak self]
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: SearchUserSectionItem) -> UICollectionViewCell? in
             guard let weakSelf = self else { return UICollectionViewCell() }            
             
-            if let item = identifier as? Empty {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MainUserEmptyCell.self), for: indexPath) as! MainUserEmptyCell
-                cell.config(searchText: item.searchTest)
-                return cell
-            }else if let user = identifier as? User {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MainUserCell.self), for: indexPath) as! MainUserCell
-                cell.config(user: user)
-                return cell
+            let curSection = weakSelf.getSectionType(section: indexPath.section)
+            
+            if curSection == .userList {
+                return collectionView.dequeueConfiguredReusableCell(using: userCellRegistration, for: indexPath, item: (identifier as! User))
+                
+            }else if curSection == .empty {
+                return collectionView.dequeueConfiguredReusableCell(using: emptyCellRegistration, for: indexPath, item: (identifier as! Empty))
             }
             return UICollectionViewCell()
         }
@@ -120,11 +134,14 @@ class MainViewController: CommonViewController {
             }
             
             weakSelf.dataSource.apply(snapshot, animatingDifferences: true)
+            weakSelf.guideLabel.isHidden = true 
         }).disposed(by: disposeBag)
               
+        
         collectionView.rx.itemSelected
             .subscribe(onNext:{ [weak self] indexPath in
                 guard let weakSelf = self else { return }
+                weakSelf.searchView.closeKeyboard()
                 let type = weakSelf.getSectionType(section: indexPath.section)
                 
                 let snapshot = weakSelf.dataSource.snapshot()
@@ -140,13 +157,12 @@ class MainViewController: CommonViewController {
             })
             .bind(to: willDisplayCell)
             .disposed(by: disposeBag)
-      
-        gesture.rx.event.bind {[weak self]_ in
-            guard let weakSelf = self else { return }
-            weakSelf.collectionView.removeGestureRecognizer(weakSelf.gesture)
-            weakSelf.searchView.closeKeyboard()
-        }.disposed(by: disposeBag)
         
+        collectionView.rx
+            .didScroll
+            .subscribe { _ in
+                self.searchView.closeKeyboard()
+            }.disposed(by: disposeBag)
                 
         output.errorMessage.subscribe { msg in
             Alert.showAlertVC(message: "에러", cancelTitle: nil, confirmAction: nil, cancelAction: nil)
@@ -160,6 +176,7 @@ extension MainViewController {
     func layout(){
         self.view.addSubview(searchView)
         self.view.addSubview(collectionView)
+        self.view.addSubview(guideLabel)
         
         let window = UIApplication.shared.windows.first
         guard let bottom = window?.safeAreaInsets.bottom else { return }
@@ -170,6 +187,12 @@ extension MainViewController {
             $0.top.equalToSuperview().offset(top + 16)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(46)
+        }
+        
+        guideLabel.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(searchView.snp.bottom).offset(20)
+            $0.height.equalTo(50)
         }
         
         collectionView.snp.makeConstraints{

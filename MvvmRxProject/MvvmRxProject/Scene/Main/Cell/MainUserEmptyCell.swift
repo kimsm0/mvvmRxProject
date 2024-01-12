@@ -53,14 +53,9 @@ class MainUserEmptyCell: UICollectionViewCell{
         }
     }
     
-    func config(searchText: String?){
-        if let searchText = searchText {
-            searchTextLabel.isHidden = false
-            searchTextLabel.text = "\"\(searchText)\""
-            guideLabel.text = "검색 결과가 없습니다. "
-        }else{
-            searchTextLabel.isHidden = true
-            guideLabel.text = "상단 검색어 영역에 유저의 이름을 입력해주세요. \n 입력된 텍스트로 유저 리스트를 검색합니다."            
-        }        
+    func config(searchText: String){
+        searchTextLabel.isHidden = false
+        searchTextLabel.text = "\"\(searchText)\""
+        guideLabel.text = "검색 결과가 없습니다. "
     }
 }

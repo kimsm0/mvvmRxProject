@@ -7,30 +7,20 @@
 
 import Foundation
 import Moya
+import RxSwift
 
 class MainModel {
-    let provider = MoyaProvider<MainAPI>()
+    let provider = MoyaProvider<MainAPI>()        
     
-    func reqUserList(query: String, page: Int, completion: @escaping ((Error?, MainUserData?)-> Void)){
-        let param: [String: Any] = ["q": query,
-                                    "per_page": 30,
-                                    "page": page]
-        
-        provider.request(.userList(param: param)) { result in
-            switch result {
-            case let .success(response):
-                let decoder = JSONDecoder()
-                if let resultData = try? decoder.decode(MainUserData.self, from: response.data) {
-                    PrintLog.printLog(response)
-                    completion(nil, resultData)
-                }else{
-                    completion(nil, nil)
-                }
-            case let .failure(error):
-                PrintLog.printLog(error.localizedDescription)
-                completion(error, nil)
-            }
-        }
+    func reqUserList(query: String, page: Int) -> Observable<MainUserData>{
+        provider.rx.request(.userList(param: ["q": query, "per_page": 30, "page": page]))
+            .filterSuccessfulStatusCodes()
+            .map( MainUserData.self )
+            .asObservable()
+            .do(onError: {
+                PrintLog.printLog($0.localizedDescription)
+                Alert.showNetworkError()
+            })
     }
 }
 
@@ -70,9 +60,9 @@ class User: SearchUserSectionItem, Codable {
 }
 
 class Empty: SearchUserSectionItem{
-    var searchTest: String?
+    var searchTest: String
     
-    init(searchTest: String? = nil) {
+    init(searchTest: String) {
         self.searchTest = searchTest
     }
 }

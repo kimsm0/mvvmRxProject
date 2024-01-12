@@ -1,0 +1,50 @@
+{
+  "sourceLanguage" : "ko",
+  "strings" : {
+    "error_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "에러가 발생했습니다."
+          }
+        }
+      }
+    },
+    "search_guide1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상단 검색어 영역에 유저의 이름을 입력해주세요."
+          }
+        }
+      }
+    },
+    "search_guide2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력된 텍스트로 유저 리스트를 검색합니다."
+          }
+        }
+      }
+    },
+    "search_validation_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색어를 입력해주세요."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

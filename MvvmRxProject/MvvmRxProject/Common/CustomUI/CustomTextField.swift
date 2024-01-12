@@ -36,7 +36,7 @@ class CustomTextField: UITextField {
 
     func bind(){
         self.rx.text
-            .orEmpty
+            .orEmpty            
             .distinctUntilChanged()
             .bind(to: curText)
             .disposed(by: disposeBag)        
