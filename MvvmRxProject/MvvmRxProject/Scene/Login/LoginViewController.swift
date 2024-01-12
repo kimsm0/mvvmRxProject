@@ -51,7 +51,7 @@ class LoginViewController: CommonViewController{
         logoImageContainerView.addSubview(logoImageView)
         self.view.addSubview(logoImageContainerView)
         self.view.addSubview(loginButton)
-        self.view.addSubview(openResumeButton)
+        //self.view.addSubview(openResumeButton)
         
         logoImageContainerView.snp.makeConstraints{
             $0.width.height.equalTo(140)
@@ -66,18 +66,19 @@ class LoginViewController: CommonViewController{
         loginButton.snp.makeConstraints{
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalTo(openResumeButton.snp.top).offset(-16)
-            $0.height.equalTo(80)
-        }
-        
-        openResumeButton.snp.makeConstraints{
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            //$0.bottom.equalTo(openResumeButton.snp.top).offset(-16)
             $0.bottom.equalToSuperview().offset(-80)
             $0.height.equalTo(80)
         }
+        
+//        openResumeButton.snp.makeConstraints{
+//            $0.leading.equalToSuperview().offset(20)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.bottom.equalToSuperview().offset(-80)
+//            $0.height.equalTo(80)
+//        }
         loginButton.setData(title: "GITHUB LOGIN", fontColor: .white, borderColor: .white, bgColor: .black)
-        openResumeButton.setData(title: "OPEN RESUME", fontColor: .white, borderColor: .white, bgColor: .black)
+//        openResumeButton.setData(title: "OPEN RESUME", fontColor: .white, borderColor: .white, bgColor: .black)
     }
         
     func bind(){
