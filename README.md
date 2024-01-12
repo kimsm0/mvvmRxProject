@@ -37,10 +37,7 @@ Kingfisher
 CocoaPod 설치 
 -sudo gem install cocoapods
 -pod install
-
-[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwj1t9aF2M-DAxUtZvUHHfePDEoQFnoECAkQAQ&url=https%3A%2F%2Fvelog.io%2F%40kerri%2FXcode-CocoaPods%25EC%25BD%2594%25EC%25BD%2594%25EC%2595%2584%25ED%258C%259F-%25EC%2584%25A4%25EC%25B9%2598-%25EB%25B0%258F-%25EC%2582%25AC%25EC%259A%25A9-%25EB%25B0%25A9%25EB%25B2%2595&usg=AOvVaw1sNe3WtitzXLdPetEyDFzC&opi=89978449]
-
--빌드 : 상단에 타겟 설정 후, 좌측 상단 play 버튼 선택. 
+-로그인을 진행하려면 깃허브 계정이 필요하다. (필수)
 
 
 📝 Version History & Todo List 
