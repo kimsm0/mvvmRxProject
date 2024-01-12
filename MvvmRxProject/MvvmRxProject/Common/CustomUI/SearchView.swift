@@ -11,12 +11,9 @@ import RxSwift
 import RxCocoa
 
 class SearchView: UIView {
-    var isTextingMode = false
-    var doneHandler: ((String) -> Void)?
-    var editingHandler: ((String?) -> Void)?
         
     var curText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    var isEditing = PublishRelay<Bool>()
+    var searchText = PublishRelay<String?>()
     
     var stackView = UIStackView().then{
         $0.axis = .horizontal
@@ -88,81 +85,32 @@ class SearchView: UIView {
         }
     }
     
-    func bind(){                
-        textfield.rx.controlEvent([.editingDidBegin])
-            .subscribe(onNext: { [weak self] _ in
-                guard let weakSelf = self else { return }
-                PrintLog.printLog(weakSelf.textfield.text)
-                weakSelf.textfield.becomeFirstResponder()
-                weakSelf.needToSearch = true
-            })
-            .disposed(by: disposeBag)
-        
-//        textfield.rx.controlEvent([.editingDidEndOnExit, .editingDidEnd])
-//            .subscribe(onNext: { [weak self] in
-//                guard let weakSelf = self else { return }
-//                PrintLog.printLog(weakSelf.needToSearch)
-//                                
-//                if weakSelf.needToSearch {
-//                    weakSelf.doneHandler?(weakSelf.textfield.text ?? "")
-//                }
-//                
-//            })
-//            .disposed(by: disposeBag)
-        
-//        textfield.rx.controlEvent([.valueChanged, .editingChanged])
-//            .subscribe(onNext: { [weak self] _ in
-//                guard let weakSelf = self else { return }
-//                if let text = weakSelf.textfield.text, !text.isEmpty {
-//                    weakSelf.clearView.isHidden = false
-//                }else{
-//                    weakSelf.clearView.isHidden = true
-//                }
-//                PrintLog.printLog(weakSelf.textfield.text)
-//                weakSelf.editingHandler?(weakSelf.textfield.text)
-//            })
-//            .disposed(by: disposeBag)
-              
-        
-        isEditing.bind(to: clearView.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-            
-        textfield.changedText
-            .asDriver()
-            .drive { text in
-                if let text = text, !text.isEmpty {
-                    self.isEditing.accept(false)
-                }else{
-                    self.isEditing.accept(true)
-                }
+    func bind(){      
+        textfield.curText
+            .subscribe { curText in
+                self.clearView.isHidden = curText.isEmpty
             }.disposed(by: disposeBag)
-        
-        
-        textfield.changedText
+                
+        textfield.curText
             .bind(to: curText)
             .disposed(by: disposeBag)
         
-        
+        textfield.finishedText
+            .bind(to: searchText)
+            .disposed(by: disposeBag)
     }
 }
 
 extension SearchView {
     @objc func clearButtonPressed(){
-        textfield.text = nil 
-        editingHandler?(textfield.text)
+        textfield.text = nil
     }
     
     func closeKeyboard(){
-        self.needToSearch = false
         textfield.resignFirstResponder()        
     }
     
     func showKeyboard(){
         textfield.becomeFirstResponder()
-    }
-    
-    func getText() -> String {
-        return textfield.text ?? ""
     }
 }

@@ -70,9 +70,10 @@ class User: SearchUserSectionItem, Codable {
 }
 
 class Empty: SearchUserSectionItem{
+    var searchTest: String?
     
-    override init() {
-        super.init()
+    init(searchTest: String? = nil) {
+        self.searchTest = searchTest
     }
 }
 

@@ -15,7 +15,7 @@ import RxDataSources
 class MainViewController: CommonViewController {
     let viewModel = MainViewModel()
     
-    let searchTrigger = PublishRelay<(String?)>()
+    let searchTrigger = PublishRelay<(String)>()
     let willDisplayCell = PublishRelay<IndexPath>()
     let viewDidLoadTrigger = PublishRelay<Void>()
     
@@ -39,8 +39,7 @@ class MainViewController: CommonViewController {
     
     let headerKind = "headerKind"
     let disposeBag = DisposeBag()
-    
-    private var isInit = true
+        
     private let gesture = UITapGestureRecognizer()
     
     override func viewDidLoad() {
@@ -60,26 +59,23 @@ class MainViewController: CommonViewController {
     }
     
     func bind() {
-        
-        searchView.doneHandler = { [weak self] text in
-            guard let weakSelf = self else { return }
-            if text.isEmpty {
-                Toast.showToast(message: "검색어를 다시 확인해주세요.")
-            }else{
-                weakSelf.searchTrigger.accept(text)
-            }
-            weakSelf.collectionView.removeGestureRecognizer(weakSelf.gesture)
-        }
-        
+            
         searchView.curText
+            .compactMap({ $0 })
             .bind(to: searchTrigger)
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag) 
         
-//        searchView.editingHandler = { [weak self] text in
-//            guard let weakSelf = self else { return }
-//            weakSelf.searchTrigger.accept("")
-//            weakSelf.collectionView.addGestureRecognizer(weakSelf.gesture)
-//        }
+        searchView.searchText
+            .filter({ ($0 ?? "").isEmpty })
+            .subscribe { txt in
+                Toast.showToast(message: "검색어를 입력해주세요.")
+            }.disposed(by: disposeBag)
+            
+        
+        output.errorMessage
+            .subscribe { errMsg in
+                Toast.showToast(message: errMsg)
+            }.disposed(by: disposeBag)
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<MainHeaderView>(elementKind: headerKind) {
             (supplementaryView, string, indexPath) in
@@ -88,22 +84,16 @@ class MainViewController: CommonViewController {
         
         dataSource = UICollectionViewDiffableDataSource<SearchUserSectionType, SearchUserSectionItem>(collectionView: collectionView) {[weak self]
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: SearchUserSectionItem) -> UICollectionViewCell? in
-            guard let weakSelf = self else { return UICollectionViewCell() }
-            let curSection = weakSelf.getSectionType(section: indexPath.section)
-
-            if curSection == .empty {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MainUserEmptyCell.self), for: indexPath) as! MainUserEmptyCell                
-                cell.config(searchText: weakSelf.searchView.getText(), isInit: weakSelf.isInit)
-                if weakSelf.isInit {
-                    weakSelf.isInit = false
-                }
+            guard let weakSelf = self else { return UICollectionViewCell() }            
+            
+            if let item = identifier as? Empty {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MainUserEmptyCell.self), for: indexPath) as! MainUserEmptyCell
+                cell.config(searchText: item.searchTest)
                 return cell
-            }else{
-                if let user = identifier as? User {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MainUserCell.self), for: indexPath) as! MainUserCell
-                    cell.config(user: user)
-                    return cell
-                }
+            }else if let user = identifier as? User {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MainUserCell.self), for: indexPath) as! MainUserCell
+                cell.config(user: user)
+                return cell
             }
             return UICollectionViewCell()
         }

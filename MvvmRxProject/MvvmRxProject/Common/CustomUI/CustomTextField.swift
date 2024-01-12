@@ -10,10 +10,13 @@ import RxSwift
 import RxCocoa
 
 class CustomTextField: UITextField {
+             
+    var curText = PublishRelay<String>()
     
-    //.editingChanged 이벤트 + 최초 초기화 1회 + 포커싱 + 언포커싱 : 모두 이벤트 방출 -> 값이 변경될 때만 방출되도록 커스텀 
-    public var changedText: ControlProperty<String?> {
-            return self.rx.controlProperty(editingEvents: [.editingChanged, .valueChanged], getter: { textField in
+    let disposeBag = DisposeBag()
+    
+    public var finishedText: ControlProperty<String?> {
+            return self.rx.controlProperty(editingEvents: [.editingDidEndOnExit, .editingDidEnd], getter: { textField in
                 textField.text
             }, setter: { textField, value in
                 if textField.text != value {
@@ -21,12 +24,23 @@ class CustomTextField: UITextField {
                 }
             })
         }
-
-    public var isNowEditing: ControlProperty<Bool> {
-        return self.rx.controlProperty(editingEvents: [.editingChanged, .valueChanged], getter: { textField in
-            return true
-        }, setter: { textField, value in
-            
-        })
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.bind()
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init error")
+    }
+
+    func bind(){
+        self.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .bind(to: curText)
+            .disposed(by: disposeBag)        
+    }
+    
+
 }

@@ -29,7 +29,7 @@ extension MainViewModel {
     //MARK: input
     struct Input {
         let initTrigger: Observable<Void>
-        let searchTrigger: Observable<(String?)>
+        let searchTrigger: Observable<String>
         let willDisplayCell: Observable<IndexPath>
     }
     
@@ -52,7 +52,12 @@ extension MainViewModel {
         input.searchTrigger
             .subscribe(onNext: { [weak self] query in
                 guard let weakSelf = self else { return }
-                weakSelf.reqUserList(query: query ?? "")
+                if query.isEmpty {
+                    let result: SectionTypealias = (type: SearchUserSectionType.userList, items: [], needToAppend: false)
+                    weakSelf.sections.accept(result)
+                }else{
+                    weakSelf.reqUserList(query: query)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -78,25 +83,20 @@ extension MainViewModel{
     func reqUserList(query: String){
         PrintLog.printLog("\(query), \(curPage)")
         
-        if query.isEmpty {
-            let result: SectionTypealias = (type: SearchUserSectionType.empty, items: [], needToAppend: false)
-            self.sections.accept(result)
-        }else{
-            model.reqUserList(query: query, page: curPage) { error, userData in
-                self.curSearchQuery = query
-                
-                if let error = error {
-                    PrintLog.printLog(error.localizedDescription)
-                    self.errorMessage.accept("에러가 발생했습니다. 잠시후 다시 시도해주세요.")
-                }else if let userData = userData, !userData.items.isEmpty {
-                    let result: SectionTypealias = (type: SearchUserSectionType.userList, items: userData.items, needToAppend: self.curPage > 1)
-                    self.totalCount = userData.total_count
-                    self.sections.accept(result)                    
-                }else{
-                    let result: SectionTypealias = (type: SearchUserSectionType.empty, items: [Empty()], needToAppend: false)
-                    self.sections.accept(result)
-                }
+        model.reqUserList(query: query, page: curPage) { error, userData in
+            self.curSearchQuery = query
+            
+            if let error = error {
+                PrintLog.printLog(error.localizedDescription)
+                self.errorMessage.accept("에러가 발생했습니다. 잠시후 다시 시도해주세요.")
+            }else if let userData = userData, !userData.items.isEmpty {
+                let result: SectionTypealias = (type: SearchUserSectionType.userList, items: userData.items, needToAppend: self.curPage > 1)
+                self.totalCount = userData.total_count
+                self.sections.accept(result)
+            }else{
+                let result: SectionTypealias = (type: SearchUserSectionType.empty, items: [Empty(searchTest: query)], needToAppend: false)
+                self.sections.accept(result)
             }
-        }        
+        }
     }
 }
