@@ -12,6 +12,28 @@
         }
       }
     },
+    "error_message_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "에러"
+          }
+        }
+      }
+    },
+    "move_button_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동"
+          }
+        }
+      }
+    },
     "search_guide1" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30,6 +52,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "입력된 텍스트로 유저 리스트를 검색합니다."
+          }
+        }
+      }
+    },
+    "search_result_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색 결과가 없습니다."
           }
         }
       }

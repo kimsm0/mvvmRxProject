@@ -47,9 +47,7 @@ extension LoginViewModel {
         
         self.model.reqAccessToken(code: code)
             .map(\.access_token)
-            .map{[weak self] in
-                LocalStorage.accessToken = $0
-            }
+            .map{ LocalStorage.accessToken = $0 }
             .flatMap{ self.model.reqUserInfo() }
             .bind(to: loginResult)
             .disposed(by: disposeBag)

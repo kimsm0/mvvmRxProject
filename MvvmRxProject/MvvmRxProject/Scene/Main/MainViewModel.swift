@@ -75,7 +75,7 @@ extension MainViewModel{
                 
     func reqUserList(query: String){
         PrintLog.printLog("\(query), \(curPage)")
-        
+        self.curSearchQuery = query
         self.model.reqUserList(query: query, page: curPage)
             .map{ self.totalCount = $0.total_count
                 return $0

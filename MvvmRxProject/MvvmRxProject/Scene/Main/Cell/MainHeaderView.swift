@@ -80,7 +80,7 @@ class MainHeaderView: UICollectionReusableView{
             $0.height.equalTo(1)
         }
         
-        myRepoButton.setData(title: "이동", fontColor: .blue, borderColor: .black, bgColor: .white)
+        myRepoButton.setData(title: "move_button_title".localized(), fontColor: .blue, borderColor: .black, bgColor: .white)
     }
     
     func bind(){

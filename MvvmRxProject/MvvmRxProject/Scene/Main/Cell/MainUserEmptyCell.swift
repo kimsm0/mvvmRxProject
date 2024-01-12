@@ -56,6 +56,6 @@ class MainUserEmptyCell: UICollectionViewCell{
     func config(searchText: String){
         searchTextLabel.isHidden = false
         searchTextLabel.text = "\"\(searchText)\""
-        guideLabel.text = "검색 결과가 없습니다. "
+        guideLabel.text = "search_result_empty".localized()
     }
 }

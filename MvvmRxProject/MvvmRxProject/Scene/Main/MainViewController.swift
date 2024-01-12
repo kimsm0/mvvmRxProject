@@ -39,7 +39,7 @@ class MainViewController: CommonViewController {
     let disposeBag = DisposeBag()
     
     let guideLabel = UILabel().then{
-        $0.text = "\(String(localized: "search_guide1"))\n\(String(localized: "search_guide2"))"
+        $0.text = "\("search_guide1".localized())\n\("search_guide2".localized())"
         $0.numberOfLines = 0
         $0.font = .systemFont(ofSize: 15)
         $0.textColor = .black         
@@ -72,7 +72,7 @@ class MainViewController: CommonViewController {
         searchView.searchText
             .filter({ ($0 ?? "").isEmpty })
             .subscribe { txt in
-                Toast.showToast(message: String(localized: "search_validation_message"))
+                Toast.showToast(message: "search_validation_message".localized())
             }.disposed(by: disposeBag)
             
         
@@ -165,7 +165,7 @@ class MainViewController: CommonViewController {
             }.disposed(by: disposeBag)
                 
         output.errorMessage.subscribe { msg in
-            Alert.showAlertVC(message: "에러", cancelTitle: nil, confirmAction: nil, cancelAction: nil)
+            Alert.showAlertVC(title:"error_message_title".localized() ,message: "error_message".localized(), cancelTitle: nil, confirmAction: nil, cancelAction: nil)
         }.disposed(by: disposeBag)
     }
 }

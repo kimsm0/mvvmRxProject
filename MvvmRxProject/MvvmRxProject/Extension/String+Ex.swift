@@ -15,4 +15,8 @@ extension String {
         attributedString.setAttributes([NSAttributedString.Key.underlineStyle: 1], range: underlineRange)
         return attributedString
     }
+    
+    func localized() -> String{        
+        return String(localized: String.LocalizationValue(self))
+    }
 }
