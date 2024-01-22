@@ -98,7 +98,7 @@ class LoginViewController: CommonViewController{
             .subscribe(onNext: {[weak self] loginUser in
                 guard let weakSelf = self else { return }
                 if !loginUser.login.isEmpty{
-                    LoginInfo.instance.loginUser = loginUser
+                    LoginInfo.instance.loginUser = loginUser                    
                     weakSelf.navigationController?.pushViewController(MainViewController(), animated: true)
                 }else{
                     Alert.showAlertVC(message: "로그인 에러", cancelTitle: nil, confirmAction: nil, cancelAction: nil)

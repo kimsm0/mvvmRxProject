@@ -9,22 +9,9 @@ import Foundation
 class LocalStorage: NSObject {
     
     // MARK: - Properties
+    @UserDefault(key: "kimsoomin.MvvmRxProject.server", defaultValue: nil)
+    static var server: String?
     
-    static var server: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "kimsoomin.MvvmRxProject.server")
-        }
-        set(new) {
-            UserDefaults.standard.set(new, forKey: "kimsoomin.MvvmRxProject.server")
-        }
-    }
-    
-    static var accessToken: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "kimsoomin.MvvmRxProject.accessToken")
-        }
-        set(new) {
-            UserDefaults.standard.set(new, forKey: "kimsoomin.MvvmRxProject.accessToken")
-        }
-    }
+    @UserDefault(key: "kimsoomin.MvvmRxProject.accessToken", defaultValue: nil)
+    static var accessToken: String?
 }
