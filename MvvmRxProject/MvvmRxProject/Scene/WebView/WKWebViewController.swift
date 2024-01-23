@@ -67,7 +67,7 @@ class WKWebViewController: CommonViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false 
     }
-    
+    @inlinable
     override func attribute(){
         super.attribute()
         
@@ -78,7 +78,7 @@ class WKWebViewController: CommonViewController {
         webView.allowsLinkPreview = false
         webView.load(request)
     }
-    
+    @inlinable
     func layout(){
         guard let webView = wkWebView else { return }
         view.addSubview(webView)

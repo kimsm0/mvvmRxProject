@@ -40,13 +40,13 @@ class LoginViewController: CommonViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.layout()   
-        self.bind()
+        self.bind()                
     }
     
     override func attribute() {
         self.view.backgroundColor = .black
     }
-    
+    @inlinable
     func layout(){
         logoImageContainerView.addSubview(logoImageView)
         self.view.addSubview(logoImageContainerView)

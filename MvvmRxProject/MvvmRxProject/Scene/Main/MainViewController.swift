@@ -172,7 +172,7 @@ class MainViewController: CommonViewController {
 
 // MARK: Layout
 extension MainViewController {
-    
+    @inlinable
     func layout(){
         self.view.addSubview(searchView)
         self.view.addSubview(collectionView)

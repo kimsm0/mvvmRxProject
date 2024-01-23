@@ -38,6 +38,7 @@ class MainUserEmptyCell: UICollectionViewCell{
         
     }
     
+    @inlinable
     func layout(){
         self.addSubview(searchTextLabel)
         self.addSubview(guideLabel)

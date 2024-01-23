@@ -53,7 +53,7 @@ class SearchView: UIView {
         layout()
         bind()
     }
-    
+    @inlinable
     func layout(){
         
         clearView.addSubview(clearButton)

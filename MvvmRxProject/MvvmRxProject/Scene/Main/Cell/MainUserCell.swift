@@ -35,6 +35,7 @@ class MainUserCell: UICollectionViewCell{
         fatalError("init(coder:) has not been implemented")
     }
     
+    @inlinable
     func layout(){
         self.addSubview(profileImageView)
         self.addSubview(userContentsView)

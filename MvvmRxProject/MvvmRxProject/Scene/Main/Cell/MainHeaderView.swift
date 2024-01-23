@@ -46,6 +46,7 @@ class MainHeaderView: UICollectionReusableView{
         self.backgroundColor = .white
     }
         
+    @inlinable
     func layout() {
         self.addSubview(topLineView)
         self.addSubview(loginUserLabel)
