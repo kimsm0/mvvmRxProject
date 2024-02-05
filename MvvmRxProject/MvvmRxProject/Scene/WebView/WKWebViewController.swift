@@ -154,11 +154,11 @@ extension WKWebViewController:WKNavigationDelegate{
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        PrintLog.printLog(error.localizedDescription)
+        printLog(error.localizedDescription)
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        PrintLog.printLog(error.localizedDescription)
+        printLog(error.localizedDescription)
     }
     
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
@@ -195,7 +195,7 @@ extension WKWebViewController:WKNavigationDelegate{
     }
 
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView){
-        PrintLog.printLog(nil)
+        printLog(nil)
     }
 }
 extension WKWebViewController:WKUIDelegate { }
@@ -204,7 +204,7 @@ extension WKWebViewController:WKUIDelegate { }
 extension WKWebViewController {
     private func setupProgressView() {
         guard let navigationBar = navigationController?.navigationBar else {
-            PrintLog.printLog("NavigationBar nil")
+            printLog("NavigationBar nil")
             return
         }
         progressView.isHidden = true

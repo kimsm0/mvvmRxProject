@@ -47,8 +47,8 @@ extension OAuthAPI: TargetType {
         case .reqAccessToken(let code):
             let param = ["client_id": API.OAuth.clientId,
                          "client_secret": API.OAuth.clientSecret,
-                         "code": code]
-            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)        
+                         "code": code]            
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         }
     }
     

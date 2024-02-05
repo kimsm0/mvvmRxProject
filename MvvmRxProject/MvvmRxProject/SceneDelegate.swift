@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: scene)
                 
-        let rootNavi = UINavigationController(rootViewController: LoginViewController())
+        let rootNavi = UINavigationController(rootViewController: CustomTabBarViewController())
         window?.makeKeyAndVisible()
         window?.rootViewController = rootNavi
     }
@@ -58,9 +58,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
-            PrintLog.printLog(url.absoluteString)
+            printLog(url.absoluteString)
             if let code = url.absoluteString.components(separatedBy: "code=").last{
-                PrintLog.printLog(code)
+                printLog(code)
                 LoginInfo.instance.loginTrigger.accept(code)                
             }
         }

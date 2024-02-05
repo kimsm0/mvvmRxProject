@@ -18,7 +18,7 @@ class MainModel {
             .map( MainUserData.self )
             .asObservable()
             .do(onError: {
-                PrintLog.printLog($0.localizedDescription)
+                printLog($0.localizedDescription)
                 Alert.showNetworkError()
             })
     }

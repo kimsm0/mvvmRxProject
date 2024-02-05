@@ -50,6 +50,6 @@ extension LoginViewModel {
             .map{ LocalStorage.accessToken = $0 }
             .flatMap{ self.model.reqUserInfo() }
             .bind(to: loginResult)
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag)               
     }
 }

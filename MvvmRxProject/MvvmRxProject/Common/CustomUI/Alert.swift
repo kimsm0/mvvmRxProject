@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // TODO: alertvc custom
-class Alert {
+struct Alert {
     static func showNetworkError(){
         Alert.showAlertVC(title: "네트워크 에러", message: "잠시후 다시 시도해주세요.", cancelTitle: nil, confirmAction: nil, cancelAction: nil)
     }

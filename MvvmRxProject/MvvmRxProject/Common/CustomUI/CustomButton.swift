@@ -1,5 +1,5 @@
 //
-//  CustomButton.swift
+//  CustomButtonView.swift
 //  MvvmRxProject
 //
 //  Created by kimsoomin_mac2022 on 1/8/24.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CustomButton: UIView {
+class CustomButtonView: UIView {
     
     var button = UIButton()
     

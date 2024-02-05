@@ -16,7 +16,7 @@ class MainHeaderView: UICollectionReusableView{
         $0.textColor = .black
     }
     
-    var myRepoButton = CustomButton()
+    var myRepoButton = CustomButtonView()
     
     var dateLabel = UILabel().then{
         $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
@@ -94,8 +94,8 @@ class MainHeaderView: UICollectionReusableView{
     
     func config(){
         let userInfoText = "로그인 유저: \(LoginInfo.instance.loginUser?.login ?? "-")"
-        dateLabel.text = "검색시간: \(Date().convertToString(format: "yyyy.MM.dd HH:mm:ss"))"
-        loginUserLabel.attributedText = userInfoText.getUnderlineAttr(attrText: "\(LoginInfo.instance.loginUser?.login ?? "-")")
+        dateLabel.text = "검색시간: \(Date().convertToString(formatType: DateFormatType.defaultFullWithTZType))"
+        loginUserLabel.attributedText = userInfoText.getUnderlineAttr(to: "\(LoginInfo.instance.loginUser?.login ?? "-")")
     }
 }
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockData {    
+struct MockData {    
     
     static func getAccessTokenMockData() -> Data {
         return Data(
@@ -49,5 +49,12 @@ class MockData {
             }
             """.utf8
         )
+    }
+    
+    static func getLoginUserEntity() -> LoginUserEntity {
+        return LoginUserEntity(member_id: "kimsm",
+                               member_email: "kimsoomin@naver.com",
+                               member_pw: "1234!abcd",
+                               member_code: 1234)
     }
 }

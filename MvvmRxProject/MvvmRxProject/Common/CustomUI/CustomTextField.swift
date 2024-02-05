@@ -12,18 +12,19 @@ import RxCocoa
 class CustomTextField: UITextField {
              
     var curText = PublishRelay<String>()
+    var isFocusing = BehaviorRelay<Bool>(value: false)
+    
+    var finishedText: ControlProperty<String?> {
+        return self.rx.controlProperty(editingEvents: [.editingDidEndOnExit, .editingDidEnd], getter: { textField in
+            return textField.text
+        }, setter: { textField, value in
+            if textField.text != value {
+                textField.text = value
+            }
+        })
+    }
     
     let disposeBag = DisposeBag()
-    
-    public var finishedText: ControlProperty<String?> {
-            return self.rx.controlProperty(editingEvents: [.editingDidEndOnExit, .editingDidEnd], getter: { textField in
-                textField.text
-            }, setter: { textField, value in
-                if textField.text != value {
-                    textField.text = value
-                }
-            })
-        }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,14 +34,25 @@ class CustomTextField: UITextField {
     required init?(coder: NSCoder) {
         fatalError("init error")
     }
-
+    
+    
     func bind(){
         self.rx.text
             .orEmpty            
             .distinctUntilChanged()
             .bind(to: curText)
-            .disposed(by: disposeBag)        
+            .disposed(by: disposeBag)
+               
+        self.rx
+            .beginEditing
+            .map{ _ in return true }
+            .bind(to: isFocusing)
+            .disposed(by: disposeBag)
+        
+        self.rx
+            .endEditing
+            .map{ _ in return false }
+            .bind(to: isFocusing)
+            .disposed(by: disposeBag)                       
     }
-    
-
 }

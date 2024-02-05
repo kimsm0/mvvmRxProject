@@ -13,20 +13,20 @@ import RxSwift
 import RxDataSources
 
 class MainViewController: CommonViewController {
-    let viewModel = MainViewModel()
+    private let viewModel = MainViewModel()
     
-    let searchTrigger = PublishRelay<(String)>()
-    let willDisplayCell = PublishRelay<IndexPath>()
+    private let searchTrigger = PublishRelay<(String)>()
+    private let willDisplayCell = PublishRelay<IndexPath>()
     
-    lazy var input = MainViewModel.Input(searchTrigger: searchTrigger.asObservable(),
+    private lazy var input = MainViewModel.Input(searchTrigger: searchTrigger.asObservable(),
                                          willDisplayCell: willDisplayCell.asObservable())
-    lazy var output = viewModel.transform(input: input)
+    private lazy var output = viewModel.transform(input: input)
     
-    var dataSource: UICollectionViewDiffableDataSource<SearchUserSectionType, SearchUserSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<SearchUserSectionType, SearchUserSectionItem>!
     
-    lazy var searchView = SearchView()
+    private lazy var searchView = SearchView()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: generateLayout())
         cv.backgroundColor = .white
         cv.showsVerticalScrollIndicator = false
@@ -35,10 +35,10 @@ class MainViewController: CommonViewController {
         return cv
     }()
     
-    let headerKind = "headerKind"
-    let disposeBag = DisposeBag()
+    private let headerKind = "headerKind"
+    private let disposeBag = DisposeBag()
     
-    let guideLabel = UILabel().then{
+    private let guideLabel = UILabel().then{
         $0.text = "\("search_guide1".localized())\n\("search_guide2".localized())"
         $0.numberOfLines = 0
         $0.font = .systemFont(ofSize: 15)
@@ -62,19 +62,16 @@ class MainViewController: CommonViewController {
     }
     
     func bind() {
-            
         searchView.curText
             .compactMap({ $0 })
             .bind(to: searchTrigger)
             .disposed(by: disposeBag)
-                
         
         searchView.searchText
             .filter({ ($0 ?? "").isEmpty })
             .subscribe { txt in
                 Toast.showToast(message: "search_validation_message".localized())
             }.disposed(by: disposeBag)
-            
         
         output.errorMessage
             .subscribe { errMsg in
@@ -178,13 +175,8 @@ extension MainViewController {
         self.view.addSubview(collectionView)
         self.view.addSubview(guideLabel)
         
-        let window = UIApplication.shared.windows.first
-        guard let bottom = window?.safeAreaInsets.bottom else { return }
-        guard let top = window?.safeAreaInsets.top else { return }
-        
-        
         searchView.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(top + 16)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(46)
         }
@@ -198,7 +190,7 @@ extension MainViewController {
         collectionView.snp.makeConstraints{
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(searchView.snp.bottom).offset(8)
-            $0.bottom.equalToSuperview().offset(-bottom)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
         }
     }
     

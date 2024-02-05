@@ -34,8 +34,8 @@ class LoginViewController: CommonViewController{
         $0.tintColor = .white
     }
     
-    var openResumeButton = CustomButton()
-    var loginButton = CustomButton()
+    var openResumeButton = CustomButtonView()
+    var loginButton = CustomButtonView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +66,7 @@ class LoginViewController: CommonViewController{
         loginButton.snp.makeConstraints{
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            //$0.bottom.equalTo(openResumeButton.snp.top).offset(-16)
-            $0.bottom.equalToSuperview().offset(-80)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
             $0.height.equalTo(80)
         }
         

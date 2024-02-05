@@ -14,6 +14,7 @@ class SearchView: UIView {
         
     var curText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var searchText = PublishRelay<String?>()
+    var isFocusing = BehaviorRelay<Bool>(value: false)
     
     var stackView = UIStackView().then{
         $0.axis = .horizontal
@@ -97,6 +98,10 @@ class SearchView: UIView {
         
         textfield.finishedText
             .bind(to: searchText)
+            .disposed(by: disposeBag)
+        
+        textfield.isFocusing
+            .bind(to: isFocusing)
             .disposed(by: disposeBag)
     }
 }
