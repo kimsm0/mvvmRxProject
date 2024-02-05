@@ -53,8 +53,8 @@ class MainViewController: CommonViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true 
+        super.viewWillAppear(animated)        
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,8 +78,14 @@ class MainViewController: CommonViewController {
                 Toast.showToast(message: errMsg)
             }.disposed(by: disposeBag)
         
-        let headerRegistration = UICollectionView.SupplementaryRegistration<MainHeaderView>(elementKind: headerKind) {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<MainHeaderView>(elementKind: headerKind) {[weak self]
             (supplementaryView, string, indexPath) in
+            guard let weakSelf = self else { return }
+            supplementaryView.myRepoButton.button.rx.tap
+                    .subscribe(onNext: {
+                        let myPage = MypageViewController()
+                        weakSelf.navigationController?.pushViewController(myPage, animated: true)
+                    }).disposed(by: weakSelf.disposeBag)
             supplementaryView.config()
         }
         

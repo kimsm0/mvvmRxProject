@@ -31,9 +31,5 @@ class CommonViewController: UIViewController {
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-    }
-    
-    @objc func pressedBackButton(){
-        self.navigationController?.popViewController(animated: true)
-    }
+    }        
 }

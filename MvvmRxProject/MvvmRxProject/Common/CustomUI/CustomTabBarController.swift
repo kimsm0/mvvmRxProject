@@ -64,7 +64,7 @@ class CustomTabBarViewController: UITabBarController {
 //        loginNavi2.tabBarItem.selectedImage = UIImage(systemName: "lock.fill")
 //        loginNavi2.tabBarItem.title = "Github Login"
         
-        self.setViewControllers([loginNavi, loginNavi2], animated: false)
+        self.setViewControllers([loginViewController, loginNavi2], animated: false)
         
         customTabBar.addTabItem(tabbar: TabBar(onImageName: "lock.icloud.fill", offImageName: "lock.icloud", title: "Github Login", index: 0))
         customTabBar.addTabItem(tabbar: TabBar(onImageName: "lock.fill", offImageName: "lock", title: "Email Login", index: 1))

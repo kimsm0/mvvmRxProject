@@ -85,11 +85,11 @@ class MainHeaderView: UICollectionReusableView{
     }
     
     func bind(){
-        myRepoButton.button.rx.tap
-            .subscribe(onNext: {
-                guard let url = LoginInfo.instance.loginUser?.html_url else { return }
-                WKWebViewController.showWebView(urlString: url)
-            }).disposed(by: disposeBag)
+//        myRepoButton.button.rx.tap
+//            .subscribe(onNext: {
+//                guard let url = LoginInfo.instance.loginUser?.html_url else { return }
+//                WKWebViewController.showWebView(urlString: url)
+//            }).disposed(by: disposeBag)
     }
     
     func config(){

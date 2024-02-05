@@ -34,7 +34,7 @@ class LoginViewController: CommonViewController{
         $0.tintColor = .white
     }
     
-    var openResumeButton = CustomButtonView()
+    var testButton = CustomButtonView()
     var loginButton = CustomButtonView()
     
     override func viewDidLoad() {
@@ -42,9 +42,7 @@ class LoginViewController: CommonViewController{
         self.layout()   
         self.bind()                
     }
-    
-    
-    
+            
     override func attribute() {
         self.view.backgroundColor = .black
     }
@@ -53,7 +51,7 @@ class LoginViewController: CommonViewController{
         logoImageContainerView.addSubview(logoImageView)
         self.view.addSubview(logoImageContainerView)
         self.view.addSubview(loginButton)
-        //self.view.addSubview(openResumeButton)
+        self.view.addSubview(testButton)
                 
         
         logoImageContainerView.snp.makeConstraints{
@@ -69,19 +67,19 @@ class LoginViewController: CommonViewController{
         loginButton.snp.makeConstraints{
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            
             $0.bottom.equalToSuperview().offset(-(UIApplication.shared.tabbarFrame + 10 ))
             $0.height.equalTo(80)
         }
         
-//        openResumeButton.snp.makeConstraints{
-//            $0.leading.equalToSuperview().offset(20)
-//            $0.trailing.equalToSuperview().offset(-20)
-//            $0.bottom.equalToSuperview().offset(-80)
-//            $0.height.equalTo(80)
-//        }
+        testButton.snp.makeConstraints{
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(loginButton.snp.top).offset(-20)
+            $0.height.equalTo(80)
+        }
+        
         loginButton.setData(title: "GITHUB LOGIN", fontColor: .white, borderColor: .white, bgColor: .black)
-//        openResumeButton.setData(title: "OPEN RESUME", fontColor: .white, borderColor: .white, bgColor: .black)
+        testButton.setData(title: "TEST", fontColor: .white, borderColor: .white, bgColor: .black)
     }
         
     func bind(){
@@ -90,11 +88,13 @@ class LoginViewController: CommonViewController{
             .bind(to: openGithubTrigger)
             .disposed(by: disposeBag)            
         
-        openResumeButton.button.rx.tap
-            .subscribe(onNext: {
-                if let pdfURL = Bundle.main.url(forResource: "resume", withExtension: "pdf", subdirectory: nil, localization: nil){
-                    WKWebViewController.loadLocalFile(url: pdfURL)
-                }                                
+        testButton.button.rx.tap
+            .subscribe(onNext: {[weak self] in
+                guard let weakSelf = self else { return }
+//                if let pdfURL = Bundle.main.url(forResource: "resume", withExtension: "pdf", subdirectory: nil, localization: nil){
+//                    WKWebViewController.loadLocalFile(url: pdfURL)
+//                }
+                weakSelf.navigationController?.pushViewController(MypageViewController(), animated: true)
             }).disposed(by: disposeBag)
        
         output.loginResult
