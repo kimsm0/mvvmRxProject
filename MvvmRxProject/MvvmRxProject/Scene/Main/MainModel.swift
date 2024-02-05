@@ -60,15 +60,24 @@ class User: SearchUserSectionItem, Codable {
 }
 
 class Empty: SearchUserSectionItem{
-    var searchTest: String
+    var searchText: String
     
-    init(searchTest: String) {
-        self.searchTest = searchTest
+    init(searchText: String) {
+        self.searchText = searchText
+    }
+}
+
+class RecentKeyword: SearchUserSectionItem{
+    var keyword: String
+    
+    init(keyword: String) {
+        self.keyword = keyword
     }
 }
 
 // 검색화면 섹션 타입
 public enum SearchUserSectionType: Int, CaseIterable {
+    case recentKeyword
     case userList
     case empty
 }

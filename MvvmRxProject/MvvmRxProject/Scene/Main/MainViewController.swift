@@ -29,6 +29,7 @@ class MainViewController: CommonViewController {
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: generateLayout())
         cv.backgroundColor = .white
+        cv.keyboardDismissMode = .onDrag
         cv.showsVerticalScrollIndicator = false
         cv.register(MainUserCell.self, forCellWithReuseIdentifier: String(describing: MainUserCell.self))
         cv.register(MainUserEmptyCell.self, forCellWithReuseIdentifier: String(describing: MainUserEmptyCell.self))
@@ -36,6 +37,7 @@ class MainViewController: CommonViewController {
     }()
     
     private let headerKind = "headerKind"
+    private let recentKeywordHeader = "recentKeywordHeader"
     private let disposeBag = DisposeBag()
     
     private let guideLabel = UILabel().then{
@@ -68,11 +70,14 @@ class MainViewController: CommonViewController {
             .disposed(by: disposeBag)
         
         searchView.searchText
-            .filter({ ($0 ?? "").isEmpty })
-            .subscribe { txt in
-                Toast.showToast(message: "search_validation_message".localized())
-            }.disposed(by: disposeBag)
-        
+            .subscribe(onNext: { txt in
+                if let txt = txt {
+                    self.viewModel.saveRecentKeyword(keyword: txt)
+                }else{
+                    Toast.showToast(message: "search_validation_message".localized())
+                }
+            }).disposed(by: disposeBag)
+       
         output.errorMessage
             .subscribe { errMsg in
                 Toast.showToast(message: errMsg)
@@ -89,6 +94,11 @@ class MainViewController: CommonViewController {
             supplementaryView.config()
         }
         
+        ///section header: 최근검색어 타이틀 영역
+        let recentKeywordHeader = UICollectionView.SupplementaryRegistration<SearchHeaderView>(elementKind: recentKeywordHeader) {
+            (supplementaryView, string, indexPath) in            
+        }
+        
         let userCellRegistration = UICollectionView.CellRegistration<MainUserCell, User> {
             (cell,indexPath,itemIdentifier) in
             cell.config(user: itemIdentifier)
@@ -96,7 +106,11 @@ class MainViewController: CommonViewController {
         
         let emptyCellRegistration = UICollectionView.CellRegistration<MainUserEmptyCell, Empty> {
             (cell,indexPath,itemIdentifier) in
-            cell.config(searchText: itemIdentifier.searchTest)
+            cell.config(searchText: itemIdentifier.searchText)
+        }
+        let recentKeywordCellRegistration = UICollectionView.CellRegistration<MainRecentKeywordCell, RecentKeyword> {
+            (cell,indexPath,itemIdentifier) in
+            cell.config(keyword: itemIdentifier.keyword)
         }
         
         
@@ -111,6 +125,8 @@ class MainViewController: CommonViewController {
                 
             }else if curSection == .empty {
                 return collectionView.dequeueConfiguredReusableCell(using: emptyCellRegistration, for: indexPath, item: (identifier as! Empty))
+            }else if curSection == .recentKeyword {
+                return collectionView.dequeueConfiguredReusableCell(using: recentKeywordCellRegistration, for: indexPath, item: (identifier as! RecentKeyword))
             }
             return UICollectionViewCell()
         }
@@ -119,25 +135,38 @@ class MainViewController: CommonViewController {
             guard let weakSelf = self else { return nil }
             if kind == weakSelf.headerKind {
                 return weakSelf.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            }else if kind == weakSelf.recentKeywordHeader {
+                return weakSelf.collectionView.dequeueConfiguredReusableSupplementary(using: recentKeywordHeader, for: index)
             }
             return nil
         }
         
         ///데이터 전체 reload
-        output.sections.subscribe(onNext: { [weak self] section in
+        output.sections.subscribe(onNext: { [weak self] sectionsTypealias in
             guard let weakSelf = self else { return }
             var snapshot = weakSelf.dataSource.snapshot()
-            
-            if section.needToAppend {
-                snapshot.appendItems(section.items, toSection: section.type)
-            }else{
+            var animatingDifferences = false
+            if sectionsTypealias.isNew {
                 snapshot.deleteAllItems()
-                snapshot.appendSections([section.type])
-                snapshot.appendItems(section.items, toSection: section.type)                
+                let _ = sectionsTypealias.item.enumerated().map{
+                    snapshot.appendSections([$0.element.type])
+                    snapshot.appendItems($0.element.items, toSection: $0.element.type)
+                }
+                animatingDifferences = true
+            }else { ///부분 데이터 reload
+                if let item = sectionsTypealias.item.first {
+                    if sectionsTypealias.needToAppend {
+                        snapshot.appendItems(item.items, toSection: item.type)
+                    }else if sectionsTypealias.needToDelete {
+                        snapshot.deleteSections([item.type])
+                    }else {
+                        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: item.type))
+                        snapshot.appendItems(item.items, toSection: item.type)
+                    }
+                }
             }
-            
-            weakSelf.dataSource.apply(snapshot, animatingDifferences: true)
-            weakSelf.guideLabel.isHidden = true 
+            weakSelf.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            weakSelf.guideLabel.isHidden = true
         }).disposed(by: disposeBag)
               
         
@@ -154,18 +183,13 @@ class MainViewController: CommonViewController {
                 }
             }).disposed(by: disposeBag)
         
+        
         collectionView.rx.willDisplayCell
             .map({ (cell, indexPath) in
                 return indexPath
             })
             .bind(to: willDisplayCell)
             .disposed(by: disposeBag)
-        
-        collectionView.rx
-            .didScroll
-            .subscribe { _ in
-                self.searchView.closeKeyboard()
-            }.disposed(by: disposeBag)
                 
         output.errorMessage.subscribe { msg in
             Alert.showAlertVC(title:"error_message_title".localized() ,message: "error_message".localized(), cancelTitle: nil, confirmAction: nil, cancelAction: nil)
@@ -217,6 +241,8 @@ extension MainViewController {
                 return weakSelf.getUserListSectionLayout()
             }else if section == .empty {
                 return weakSelf.getEmptySectionLayout()
+            }else if section == .recentKeyword {
+                return weakSelf.getRecentSearchSectionLayout()
             }else {
                 return weakSelf.getEmptySectionLayout()
             }
@@ -227,7 +253,7 @@ extension MainViewController {
     
     func getUserListSectionLayout() -> NSCollectionLayoutSection {
                 
-        let item = NSCollectionLayoutItem(layoutSize:  NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(56)))
+        let item = NSCollectionLayoutItem(layoutSize:  NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension:.fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
            
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
@@ -262,6 +288,35 @@ extension MainViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
                        
+        return section
+    }
+    
+    func getRecentSearchSectionLayout() -> NSCollectionLayoutSection {
+        let widthDimension = NSCollectionLayoutDimension.estimated(0)
+        
+        let item = NSCollectionLayoutItem(layoutSize:  NSCollectionLayoutSize(widthDimension: widthDimension, heightDimension: .fractionalHeight(1)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+           
+        let groupSize = NSCollectionLayoutSize(widthDimension: widthDimension, heightDimension: .absolute(32))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 0
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 12)
+                
+        let headerSize = NSCollectionLayoutSize(
+           widthDimension: .fractionalWidth(1.0),
+           heightDimension: .absolute(40))
+       
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+           layoutSize: headerSize,
+           elementKind: recentKeywordHeader,
+           alignment: .top)
+        
+        section.boundarySupplementaryItems = [sectionHeader]
+        
         return section
     }
 }

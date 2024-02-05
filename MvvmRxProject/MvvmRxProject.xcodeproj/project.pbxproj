@@ -17,6 +17,7 @@
 		3100FC232B709D49001C3E20 /* StaticObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC222B709D49001C3E20 /* StaticObserver.swift */; };
 		3100FC252B70B45C001C3E20 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC242B70B45C001C3E20 /* CustomPickerView.swift */; };
 		3100FC272B70D247001C3E20 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC262B70D247001C3E20 /* Region.swift */; };
+		3100FC292B713DC3001C3E20 /* MainRecentKeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC282B713DC3001C3E20 /* MainRecentKeywordCell.swift */; };
 		317E69AA2B4D146400F1FAD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E69A92B4D146400F1FAD9 /* AppDelegate.swift */; };
 		317E69AC2B4D146400F1FAD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E69AB2B4D146400F1FAD9 /* SceneDelegate.swift */; };
 		317E69B12B4D146400F1FAD9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 317E69AF2B4D146400F1FAD9 /* Main.storyboard */; };
@@ -113,6 +114,7 @@
 		3100FC222B709D49001C3E20 /* StaticObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticObserver.swift; sourceTree = "<group>"; };
 		3100FC242B70B45C001C3E20 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
 		3100FC262B70D247001C3E20 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
+		3100FC282B713DC3001C3E20 /* MainRecentKeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRecentKeywordCell.swift; sourceTree = "<group>"; };
 		317E69A62B4D146400F1FAD9 /* MvvmRxProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MvvmRxProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		317E69A92B4D146400F1FAD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		317E69AB2B4D146400F1FAD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				317E69EB2B4D161B00F1FAD9 /* MainHeaderView.swift */,
 				317E69EC2B4D161B00F1FAD9 /* MainUserCell.swift */,
 				317E69ED2B4D161B00F1FAD9 /* MainUserEmptyCell.swift */,
+				3100FC282B713DC3001C3E20 /* MainRecentKeywordCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -857,6 +860,7 @@
 				31F1BC562B5F7247000AF481 /* Test.swift in Sources */,
 				317E6A0D2B4D161B00F1FAD9 /* MainUserEmptyCell.swift in Sources */,
 				317E6A072B4D161B00F1FAD9 /* MockData.swift in Sources */,
+				3100FC292B713DC3001C3E20 /* MainRecentKeywordCell.swift in Sources */,
 				317E69AC2B4D146400F1FAD9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

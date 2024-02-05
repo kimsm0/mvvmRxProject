@@ -99,3 +99,34 @@ class MainHeaderView: UICollectionReusableView{
     }
 }
         
+class SearchHeaderView: UICollectionReusableView {
+    
+    var titleLabel = UILabel().then{
+        $0.text = "최근 검색어"
+        $0.textColor = .black
+        $0.font = .boldSystemFont(ofSize: 15)
+    }
+            
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        attribute()
+        layout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func attribute() {
+    }
+    
+    func layout(){
+        self.addSubview(titleLabel)
+       
+        titleLabel.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(8)
+            $0.height.equalTo(24)
+            $0.leading.equalToSuperview()
+        }
+    }
+}

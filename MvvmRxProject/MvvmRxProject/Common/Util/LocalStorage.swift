@@ -13,5 +13,10 @@ class LocalStorage: NSObject {
     static var server: String?
     
     @UserDefault(key: "kimsoomin.MvvmRxProject.accessToken", defaultValue: nil)
-    static var accessToken: String?        
+    static var accessToken: String?
+    
+    @UserDefault(key: "kimsoomin.MvvmRxProject.recentSearchKeyword", defaultValue: nil)
+    static var recentSearchKeyword: [String: String]?
 }
+
+
