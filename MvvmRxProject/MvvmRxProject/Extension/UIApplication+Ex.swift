@@ -42,4 +42,13 @@ extension UIApplication {
         return (keyWindow?.safeAreaInsets.bottom) ?? 0
     }
     
+    var tabbarFrame: CGFloat {
+        let window = UIApplication.shared.windows.first
+        guard let bottom = window?.safeAreaInsets.bottom else {
+            return 68
+        }
+        
+        return bottom + 68
+    }
+    
 }

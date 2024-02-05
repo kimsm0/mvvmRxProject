@@ -19,12 +19,14 @@ struct TabBar {
     var index: Int
 }
 
-class CustomTabBarController: UITabBarController {
+class CustomTabBarViewController: UITabBarController {
             
     //MARK: properties
     let loginViewController = LoginViewController()
     let emailLoginViewController = NewLoginViewController()
-    let customTabBar = CustomizedTabBar()
+    let customTabBar = CustomizedTabBar().then{
+        $0.clipsToBounds = true 
+    }
     let disposeBag = DisposeBag()
     
     //MARK: life cycle
@@ -35,32 +37,21 @@ class CustomTabBarController: UITabBarController {
         attribute()
         bind()
     }
-    
+        
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+       
         let bottom = UIApplication.shared.getSafeAreaBottom()
-        tabBar.backgroundColor = .clear
-        tabBar.frame.size.height = ((bottom) > 0) ? bottom + 68 : 68
-        tabBar.frame.origin.x = 0
-        tabBar.frame.origin.y = ((bottom) > 0) ? view.frame.height - (bottom + 68) : view.frame.height - 68
-    }
-    
-    func layout(){
-        //tabBar.itemPositioning = .centered
-        //tabBar.itemWidth = Device.Size.width / 3
-        //tabBar.itemSpacing = 0.1
-        //tabBar.layer.borderWidth = 1
-        //tabBar.layer.borderColor = UIColor(red:0.0/255.0, green:0.0/255.0, blue:0.0/255.0, alpha:0.05).cgColor
-        tabBar.clipsToBounds = true
+        customTabBar.backgroundColor = .clear
+        customTabBar.frame.size.height = ((bottom) > 0) ? bottom + 68 : 68
+        customTabBar.frame.origin.y = ((bottom) > 0) ? view.frame.height - (bottom + 68) : view.frame.height - 68
+                 
     }
     
     func attribute(){
-        self.setValue(customTabBar, forKey: "tabBar")
+        self.tabBar.isHidden = true 
         let loginNavi = UINavigationController(rootViewController: loginViewController)
 //        loginNavi.navigationBar.prefersLargeTitles = true
-//        
-//        
 //        loginNavi.tabBarItem.image = UIImage(systemName: "lock.icloud")
 //        loginNavi.tabBarItem.selectedImage = UIImage(systemName: "lock.icloud.fill")
 //        loginNavi.tabBarItem.title = "Github Login"
@@ -79,6 +70,15 @@ class CustomTabBarController: UITabBarController {
         customTabBar.addTabItem(tabbar: TabBar(onImageName: "lock.fill", offImageName: "lock", title: "Email Login", index: 1))
         
         StaticObserver.tabIndexObserver.accept(0)
+    }
+        
+    func layout(){
+        let bottom = UIApplication.shared.getSafeAreaBottom()
+        self.view.addSubview(customTabBar)
+        customTabBar.snp.makeConstraints{
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(((bottom) > 0) ? bottom + 68 : 68)
+        }
     }
     
     func bind(){        

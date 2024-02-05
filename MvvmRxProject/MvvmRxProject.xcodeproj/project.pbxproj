@@ -15,6 +15,8 @@
 		3100FC1F2B6FEBF3001C3E20 /* UIApplication+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC1E2B6FEBF3001C3E20 /* UIApplication+Ex.swift */; };
 		3100FC212B7089D2001C3E20 /* CGFloat+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC202B7089D2001C3E20 /* CGFloat+Ex.swift */; };
 		3100FC232B709D49001C3E20 /* StaticObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC222B709D49001C3E20 /* StaticObserver.swift */; };
+		3100FC252B70B45C001C3E20 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC242B70B45C001C3E20 /* CustomPickerView.swift */; };
+		3100FC272B70D247001C3E20 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3100FC262B70D247001C3E20 /* Region.swift */; };
 		317E69AA2B4D146400F1FAD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E69A92B4D146400F1FAD9 /* AppDelegate.swift */; };
 		317E69AC2B4D146400F1FAD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E69AB2B4D146400F1FAD9 /* SceneDelegate.swift */; };
 		317E69B12B4D146400F1FAD9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 317E69AF2B4D146400F1FAD9 /* Main.storyboard */; };
@@ -109,6 +111,8 @@
 		3100FC1E2B6FEBF3001C3E20 /* UIApplication+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ex.swift"; sourceTree = "<group>"; };
 		3100FC202B7089D2001C3E20 /* CGFloat+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Ex.swift"; sourceTree = "<group>"; };
 		3100FC222B709D49001C3E20 /* StaticObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticObserver.swift; sourceTree = "<group>"; };
+		3100FC242B70B45C001C3E20 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
+		3100FC262B70D247001C3E20 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		317E69A62B4D146400F1FAD9 /* MvvmRxProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MvvmRxProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		317E69A92B4D146400F1FAD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		317E69AB2B4D146400F1FAD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -394,6 +398,7 @@
 				31DD8D052B6F9FF4003B15F1 /* EmailListView.swift */,
 				3100FC182B6FDD50001C3E20 /* CustomTabBarController.swift */,
 				3100FC1A2B6FDEA4001C3E20 /* CustomizeTabBar.swift */,
+				3100FC242B70B45C001C3E20 /* CustomPickerView.swift */,
 			);
 			path = CustomUI;
 			sourceTree = "<group>";
@@ -408,6 +413,7 @@
 				3100FC142B6FC461001C3E20 /* Regex.swift */,
 				3100FC1C2B6FDF6D001C3E20 /* Device.swift */,
 				3100FC222B709D49001C3E20 /* StaticObserver.swift */,
+				3100FC262B70D247001C3E20 /* Region.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -807,6 +813,7 @@
 				3100FC152B6FC461001C3E20 /* Regex.swift in Sources */,
 				31DD8CEC2B6E8A8A003B15F1 /* MypageViewModel.swift in Sources */,
 				31DD8CF22B6E8ACF003B15F1 /* HomeViewController.swift in Sources */,
+				3100FC252B70B45C001C3E20 /* CustomPickerView.swift in Sources */,
 				317E6A052B4D161B00F1FAD9 /* String+Ex.swift in Sources */,
 				317E6A1B2B4D161B00F1FAD9 /* CommonViewController.swift in Sources */,
 				317E6A112B4D161B00F1FAD9 /* LoginModel.swift in Sources */,
@@ -836,6 +843,7 @@
 				317E6A0A2B4D161B00F1FAD9 /* MainViewController.swift in Sources */,
 				317E6A0F2B4D161B00F1FAD9 /* MainModel.swift in Sources */,
 				317E6A152B4D161B00F1FAD9 /* API.swift in Sources */,
+				3100FC272B70D247001C3E20 /* Region.swift in Sources */,
 				31DD8D042B6F8C4C003B15F1 /* CustomInputView.swift in Sources */,
 				31F1BC592B5F7C8E000AF481 /* EventViewModel.swift in Sources */,
 				317E6A122B4D161B00F1FAD9 /* LoginViewController.swift in Sources */,

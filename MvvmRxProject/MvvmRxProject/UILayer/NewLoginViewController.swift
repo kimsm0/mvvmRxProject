@@ -180,7 +180,10 @@ class NewLoginViewController: CommonViewController {
             .subscribe(onNext: {[weak self] in
                 guard let weakSelf = self else { return }
                 //TODO: fix...
-                weakSelf.loginTrigger.accept((email: weakSelf.emailView.getText(), pw: weakSelf.passwordView.getText()))
+                //weakSelf.loginTrigger.accept((email: weakSelf.emailView.getText(), pw: weakSelf.passwordView.getText()))
+                let picker = CustomPicker(data: PickerData(dataSource: RegionData.list), index: 0)
+                picker.modalPresentationStyle = .overFullScreen
+                weakSelf.present(picker, animated: false)
             }).disposed(by: disposeBag)
         
         output.idPwLoginResult

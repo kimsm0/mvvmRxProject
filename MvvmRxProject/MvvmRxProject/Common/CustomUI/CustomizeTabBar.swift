@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CustomizedTabBar: UITabBar {
+class CustomizedTabBar: UIView {
     private var shapeLayer: CALayer?
     
     override func draw(_ rect: CGRect) {
@@ -56,11 +56,6 @@ class CustomizedTabBar: UITabBar {
         path.close()
 
         return path.cgPath
-    }
-
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let buttonRadius: CGFloat = 35
-        return abs(self.center.x - point.x) > buttonRadius || abs(point.y) > buttonRadius
     }
 
     func createPathCircle() -> CGPath {

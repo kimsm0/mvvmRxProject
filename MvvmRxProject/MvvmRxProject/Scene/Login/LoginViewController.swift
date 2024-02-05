@@ -43,6 +43,8 @@ class LoginViewController: CommonViewController{
         self.bind()                
     }
     
+    
+    
     override func attribute() {
         self.view.backgroundColor = .black
     }
@@ -52,6 +54,7 @@ class LoginViewController: CommonViewController{
         self.view.addSubview(logoImageContainerView)
         self.view.addSubview(loginButton)
         //self.view.addSubview(openResumeButton)
+                
         
         logoImageContainerView.snp.makeConstraints{
             $0.width.height.equalTo(140)
@@ -66,7 +69,8 @@ class LoginViewController: CommonViewController{
         loginButton.snp.makeConstraints{
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
+            
+            $0.bottom.equalToSuperview().offset(-(UIApplication.shared.tabbarFrame + 10 ))
             $0.height.equalTo(80)
         }
         
